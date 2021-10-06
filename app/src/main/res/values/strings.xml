@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Andrew McMillan Inventory 2020</string>
+
+    <string name="login">LOGIN</string>
+
+    <string name="passHint">Enter Password</string>
+    <string name="userHint">Enter Username</string>
+    <string name="maintext">MainPage</string>
+    <string name="additem">ADD ITEM</string>
+    <string name="add_item">ADD ITEM</string>
+    <string name="button2">Button2</string>
+    <string name="quantity1">Quantity</string>
+    <string name="item_name1">Item Name</string>
+    <string name="newItem1">Enter a new item</string>
+    <string name="addItem1">Add Item</string>
+    <string name="delete_item1">Delete Item</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="delete_item23">Delete Item</string>
+
+</resources>
