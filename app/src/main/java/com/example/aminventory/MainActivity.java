@@ -46,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
                     userModel = new UserModel(-1, "error", "error");
                 }
 
-                ///////
-                //////
-                //////
                 DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
                 boolean success = true;
                 boolean validation = databaseHelper.isUserRegistered(userModel.getUsername(), userModel.getPassword());
@@ -57,42 +54,17 @@ public class MainActivity extends AppCompatActivity {
                     success = databaseHelper.addUser(userModel);
                 }
 
-
-                ///////
-                ///////
-                //////
-
-
-
-
-                // added message
-                ///////
-                /////////
                 if (!success) {
                     Toast.makeText(MainActivity.this, "User not added", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
                 }
-                 ////////
-                 // /////
 
-
-
-
-
-                /////////////
-                    //////////
-                    //////////
                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                 int userID = databaseHelper.idQuery(userModel.getUsername(), userModel.getPassword());
 
 
                 intent.putExtra("userID", userID);
-
-
-                //////////
-                    /////////
-                    ///////////
 
                 //Start main activity
                 startActivity(intent);

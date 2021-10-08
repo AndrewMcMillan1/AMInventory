@@ -31,10 +31,12 @@ public class HomeActivity extends AppCompatActivity {
         button = findViewById(R.id.addActButton);
         grid = findViewById(R.id.grid);
 
+        int userNum = getIntent().getExtras().getInt("userID");
+
 
         //Initialize DB helper, get array of items, and set array adapter to view
         final DatabaseHelper databaseHelper = new DatabaseHelper(HomeActivity.this);
-        final List<ItemModel> allItems = databaseHelper.getItems();
+        final List<ItemModel> allItems = databaseHelper.getItems(userNum);
         final ArrayAdapter itemAA = new ArrayAdapter<ItemModel>(HomeActivity.this, android.R.layout.simple_list_item_1, allItems);
         grid.setAdapter(itemAA);
 

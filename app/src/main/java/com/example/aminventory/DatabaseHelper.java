@@ -20,8 +20,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "data.db";
     public static final String INVENTORY_TABLE = "inventory_table";
     public static final String COL_ID = "ID";
+    public static final String COL_UID = "USER_ID";
+
     public static final String COL_ITEM = "ITEM";
     public static final String COL_QTY = "QUANTITY";
+
 
     //User table variables
     public static final String USER_DB_NAME = "user.db";
@@ -42,24 +45,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         //Create tables
-        db.execSQL("CREATE TABLE " + INVENTORY_TABLE + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_ITEM + " TEXT, " + COL_QTY + " INT)");
-        db.execSQL("CREATE TABLE " + USER_TABLE + " (" + USER_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_COL_NAME + " TEXT, " + USER_COL_PASSWORD + " TEXT)");
-
-        /////
-        /*
-        private void createTables() throws SQLiteException {
-
-            String userTable = "CREATE TABLE IF NOT EXISTS " + USER_TABLE + " (" + USER_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_COL_NAME + " TEXT, " + USER_COL_PASSWORD + " TEXT)");
-            String inventoryTable = "CREATE TABLE IF NOT EXISTS " + INVENTORY_TABLE + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_ITEM + " TEXT, " + COL_QTY + " INT)");
-
-            db.execSQL(userTable);
-            db.execSQL(inventoryTable);
-
-
-        }
-        */
-
-
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + INVENTORY_TABLE + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_UID + " INT, " + COL_ITEM + " TEXT, " + COL_QTY + " INT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + USER_TABLE + " (" + USER_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_COL_NAME + " TEXT, " + USER_COL_PASSWORD + " TEXT)");
 
     }
 
@@ -69,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean isUserRegistered(String username, String password) {
-        String sqlUser = "Select count(*) from " + USER_TABLE + " where username = " + username + " and password = " + password;
+        String sqlUser = "Select count(*) from " + USER_TABLE + " where username = " + USER_COL_NAME + " and password = " + USER_COL_PASSWORD;
         SQLiteStatement statement = getReadableDatabase().compileStatement(sqlUser);
         long l = statement.simpleQueryForLong();
         statement.close();
@@ -81,12 +68,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-
-    /////
-    //////
-    //////
-    // Validate existing users
-
 
     //Add a user to the user table
     public boolean addUser(UserModel userModel) {
@@ -109,10 +90,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-
-    /////////
-    ///////
-
     public int idQuery(String username, String password) {
         String sqlUser = "Select USER_COL_ID from " + USER_TABLE + " where username = " + username + " and password = " + password;
         SQLiteStatement statement = getReadableDatabase().compileStatement(sqlUser);
@@ -122,11 +99,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
 
     }
-
-
-         /////////
-        //////////
-        ///////////
 
 
     //Add an item to the item table
@@ -149,15 +121,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Get items for grid display in home activity
-    public List<ItemModel> getItems() {
+    public List<ItemModel> getItems(int user) {
 
         List<ItemModel> theItems = new ArrayList<>();
-        String query = "SELECT * FROM " + INVENTORY_TABLE;
-
-        ////////
-        ////////
-        ////////
-        //String query = "SELECT * FROM " + INVENTORY_TABLE ;
+        String query = "SELECT * FROM " + INVENTORY_TABLE + "WHERE " + COL_UID + " = " + user;
 
         SQLiteDatabase db = this.getReadableDatabase();
 
